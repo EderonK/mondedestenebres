@@ -1,0 +1,6 @@
+projectKey=fr.gtm:fr.gtm.mondedestenebres
+serverUrl=http://localhost:9000
+serverVersion=6.7.4.38452
+dashboardUrl=http://localhost:9000/dashboard/index/fr.gtm:fr.gtm.mondedestenebres
+ceTaskId=AWSOzW9WpzuFwFeeYPMt
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AWSOzW9WpzuFwFeeYPMt
