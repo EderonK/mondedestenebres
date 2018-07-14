@@ -26,6 +26,11 @@
     	<groupId>fr.gtm</groupId>
   		<artifactId>domaine</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
-  </dependency>
+  	</dependency>
+	<dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>3.0.8</version>
+	</dependency>
   </dependencies>
 </project>

@@ -146,7 +146,6 @@ public class VampireDAO implements IVampireDAO
 		}
 		catch (SQLException e)
 		{
-			//System.out.println("Erreur SQL.");
 			e.printStackTrace();
 		}
 		catch (ClassNotFoundException e)
@@ -162,7 +161,6 @@ public class VampireDAO implements IVampireDAO
 			}
 			catch (SQLException e)
 			{
-				//System.out.println("e;");
 				e.printStackTrace();
 			}
 		}
