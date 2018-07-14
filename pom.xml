@@ -5,7 +5,7 @@
   <groupId>fr.gtm</groupId>
   <artifactId>fr.gtm.mondedestenebres</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
   <name>fr.gtm.mondedestenebres</name>
   <url>http://maven.apache.org</url>
@@ -29,4 +29,7 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <modules>
+  	<module>domaine</module>
+  </modules>
 </project>
