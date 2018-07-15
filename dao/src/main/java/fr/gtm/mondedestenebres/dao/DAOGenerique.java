@@ -1,238 +1,110 @@
 package fr.gtm.mondedestenebres.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public abstract class DAOGenerique<ElementBase> implements IDAOGenerique<ElementBase>
 {
-	public boolean creerElement(ElementBase element)
+	private DAOConnect connect;
+	private String driver;
+	private String base;
+	private String user;
+	private String mdp;
+	
+	public DAOGenerique(String driver, String base, String user, String mdp)
 	{
-		Connection con = null;
-		Statement stmt = null;
+		this.connect = new DAOConnect();
+		this.driver = driver;
+		this.base = base;
+		this.user = user;
+		this.mdp = mdp;
+	}
+	
+	private void etablirConnection()
+	{
+		this.connect.etablirConnection(this.driver, this.base, this.user, this.mdp);
+	}
+	
+	private void fermerConnection()
+	{
+		this.connect.fermerConnection();
+	}
+	
+	protected void executeUpdate(String requete)
+	{
+		this.etablirConnection();
+		this.connect.executeUpdate(requete);
+		this.fermerConnection();
+	}
+	
+	protected ResultSet executeQuery(String requete)
+	{
+		this.etablirConnection();
+		ResultSet rs = this.connect.executeQuery(requete);
 		
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mondedestenebres", "root", "");
-			
-			stmt = con.createStatement();			
-			
-			String requete = "INSERT INTO " + this.getNomTable() + " " + this.getAttributs() + " VALUES " + this.getValeurs(element) + ";";
-			//System.out.println(requete);
-			
-			stmt.executeUpdate(requete);
-			
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close();
-				con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		return false;
+		return rs;
+	}
+	
+	public void creerElement(ElementBase element)
+	{
+		String requete = "INSERT INTO " + this.getNomTable() + " " + this.getAttributs() + " VALUES " + this.getValeurs(element) + ";";
+		this.executeUpdate(requete);
 	}
 	
 	public ElementBase lireElementById(int id)
 	{
-		Connection con = null;
-		Statement stmt = null;
+		String requete = "SELECT * FROM " + this.getNomTable() +" WHERE id=" + id + ";";		
+		ResultSet rs = this.executeQuery(requete);
 		
 		try
-		{	
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mondedestenebres", "root", "");
-			
-			stmt = con.createStatement();
-			
-			String requete = "SELECT * FROM " + this.getNomTable() +" WHERE id=" + id + ";";
-			//System.out.println(requete);
-			
-			ResultSet rs = stmt.executeQuery(requete);
-			
+		{
 			rs.next();
-			
-			return this.traitementLectureElement(rs);
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close();
-				con.close();
-			}
-			catch (SQLException e)
-			{
-				System.out.println("Erreur SQL.");
-			}
-		}
-		return null;
+		
+		this.fermerConnection();
+		
+		return this.traitementLectureElement(rs);
 	}
 	
 	public ArrayList<ElementBase> toutLireElement()
 	{
-		Connection con = null;
-		Statement stmt = null;
+		String requete = "SELECT * FROM " + this.getNomTable() + ";";
+		ResultSet rs = this.executeQuery(requete);
+		
+		ArrayList<ElementBase> elements = new ArrayList<ElementBase>();
 		
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mondedestenebres", "root", "");
-			
-			stmt = con.createStatement();
-			
-			String requete = "SELECT * FROM " + this.getNomTable() + ";";
-			//System.out.println(requete);
-			
-			ResultSet rs = stmt.executeQuery(requete);
-			
-			ArrayList<ElementBase> elements = new ArrayList<ElementBase>();
-			
 			while(rs.next())
 			{
 				elements.add(this.traitementLectureElement(rs));
 			}
-			
-			return elements;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close();
-				con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return null;
+		
+		this.fermerConnection();
+		
+		return elements;
 	}
 	
-	public boolean modifierElementById(int id, ElementBase element)
+	public void modifierElementById(int id, ElementBase element)
 	{
-		Connection con = null;
-		Statement stmt = null;
-		
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mondedestenebres", "root", "");
-			
-			stmt = con.createStatement();			
-			
-			String requete = "UPDATE " + this.getNomTable() +" SET "+ this.getUpdate(element) + " WHERE id=" + id + ";";
-			//System.out.println(requete);
-			
-			stmt.executeUpdate(requete);
-			
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close();
-				con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		
-		return false;
+		String requete = "UPDATE " + this.getNomTable() +" SET "+ this.getUpdate(element) + " WHERE id=" + id + ";";
+		this.executeUpdate(requete);
 	}
 	
-	public boolean supprimerElementById(int id)
+	public void supprimerElementById(int id)
 	{
-		Connection con = null;
-		Statement stmt = null;
-		
-		try
-		{	
-			Class.forName("com.mysql.jdbc.Driver");
-			
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mondedestenebres", "root", "");
-			
-			stmt = con.createStatement();
-			
-			String requete = "DELETE FROM " + this.getNomTable() + " WHERE id=" + id + ";";
-			//System.out.println(requete);
-			
-			stmt.executeUpdate(requete);
-			
-			return true;
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ClassNotFoundException e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				stmt.close();
-				con.close();
-			}
-			catch (SQLException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		return false;
+		String requete = "DELETE FROM " + this.getNomTable() + " WHERE id=" + id + ";";
+		this.executeUpdate(requete);
 	}
 	
 	public abstract String getNomTable();

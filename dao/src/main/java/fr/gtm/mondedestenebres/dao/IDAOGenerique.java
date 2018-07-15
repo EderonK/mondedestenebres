@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public interface IDAOGenerique<ElementBase>
 {
 	//CRUD
-	public boolean creerElement(ElementBase element);
+	public void creerElement(ElementBase element);
 	public ElementBase lireElementById(int id);
 	public ArrayList<ElementBase> toutLireElement();
-	public boolean modifierElementById(int id, ElementBase element);
-	public boolean supprimerElementById(int id);
+	public void modifierElementById(int id, ElementBase element);
+	public void supprimerElementById(int id);
 	
 }
