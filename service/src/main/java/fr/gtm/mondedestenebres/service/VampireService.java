@@ -25,8 +25,8 @@ public class VampireService implements IVampireService
 			if(diffGeneration > 0)
 			{
 				vampireAgresseur.setGeneration(vampireAgresseur.getGeneration() - diffGeneration);
-				vampireDAO.modifierVampireById(vampireAgresseur.getId(), vampireAgresseur);
-				vampireDAO.supprimerVampireById(vampireVictime.getId());
+				vampireDAO.modifierElementById(vampireAgresseur.getId(), vampireAgresseur);
+				vampireDAO.supprimerElementById(vampireVictime.getId());
 			}
 						
 			return true;
@@ -40,11 +40,11 @@ public class VampireService implements IVampireService
 		Calendar.getInstance();
 		Vampire neonat = new Vampire(humain.getNom(), humain.getPrenom(), sire.getClan(), 2018, sire.getGeneration()+1);
 		
-		vampireDAO.creerVampire(neonat);
+		vampireDAO.creerElement(neonat);
 	}
 
 	public ArrayList<Vampire> recenserPopulation()
 	{		
-		return vampireDAO.toutLireVampire();
+		return vampireDAO.toutLireElement();
 	}
 }

@@ -1,17 +1,13 @@
 package fr.gtm.mondedestenebres.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 
 import fr.gtm.mondedestenebres.domaine.Vampire;
 
-public class VampireDAO implements IVampireDAO
+public class VampireDAO extends DAOGenerique<Vampire>
 {
-	public boolean creerVampire(Vampire vampire)
+	/*public boolean creerVampire(Vampire vampire)
 	{
 		Connection con = null;
 		Statement stmt = null;
@@ -107,6 +103,7 @@ public class VampireDAO implements IVampireDAO
 		}
 		return null;
 	}
+	
 
 	public ArrayList<Vampire> toutLireVampire()
 	{
@@ -166,6 +163,7 @@ public class VampireDAO implements IVampireDAO
 		}
 		return null;
 	}
+	
 
 	public boolean modifierVampireById(int id, Vampire vampire)
 	{
@@ -210,6 +208,7 @@ public class VampireDAO implements IVampireDAO
 		
 		return false;
 	}
+	
 
 	public boolean supprimerVampireById(int id)
 	{
@@ -252,5 +251,52 @@ public class VampireDAO implements IVampireDAO
 			}
 		}
 		return false;
+	}
+	*/
+	
+	@Override
+	public String getNomTable()
+	{
+		return "vampire";
+	}
+	
+	@Override
+	public String getAttributs()
+	{
+		return "(nom, prenom, clan, etreinte, generation)";
+	}
+
+	@Override
+	public Vampire traitementLectureElement(ResultSet rs)
+	{
+		try
+		{
+			Vampire vampire = new Vampire();
+			vampire.setId(rs.getInt("id"));
+			vampire.setNom(rs.getString("nom"));
+			vampire.setPrenom(rs.getString("prenom"));
+			vampire.setClan(rs.getString("clan"));
+			vampire.setEtreinte(rs.getInt("etreinte"));
+			vampire.setGeneration(rs.getInt("generation"));
+			
+			return vampire;
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Erreur SQL.");
+		}
+		return null;		
+	}
+	
+	@Override
+	public String getValeurs(Vampire vampire)
+	{
+		return "('" + vampire.getNom() + "', '" + vampire.getPrenom() +  "', '" + vampire.getClan() + "', " + vampire.getEtreinte() + ", " + vampire.getGeneration() +")";
+	}
+
+	@Override
+	public String getUpdate(Vampire vampire)
+	{
+		return "nom = '" + vampire.getNom() + "', prenom =  '" + vampire.getPrenom() + "', clan =  '" + vampire.getClan() + "', etreinte =  " + vampire.getEtreinte() + ", generation =  " + vampire.getGeneration();		
 	}
 }
