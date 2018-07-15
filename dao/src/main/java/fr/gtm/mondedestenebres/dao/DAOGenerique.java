@@ -57,18 +57,22 @@ public abstract class DAOGenerique<ElementBase> implements IDAOGenerique<Element
 		String requete = "SELECT * FROM " + this.getNomTable() +" WHERE id=" + id + ";";		
 		ResultSet rs = this.executeQuery(requete);
 		
+		ElementBase element = null;
+		
 		try
 		{
 			rs.next();
+			element = this.traitementLectureElement(rs);
+			this.fermerConnection();
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
 		
-		this.fermerConnection();
 		
-		return this.traitementLectureElement(rs);
+		
+		return element;
 	}
 	
 	public ArrayList<ElementBase> toutLireElement()

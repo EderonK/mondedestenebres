@@ -10,5 +10,4 @@ public interface IDAOGenerique<ElementBase>
 	public ArrayList<ElementBase> toutLireElement();
 	public void modifierElementById(int id, ElementBase element);
 	public void supprimerElementById(int id);
-	
 }
