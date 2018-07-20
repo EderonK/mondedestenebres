@@ -9,7 +9,6 @@
   </parent>
   <groupId>fr.gtm</groupId>
   <artifactId>dao</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>dao</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -28,9 +27,9 @@
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
 	<dependency>
-    	<groupId>mysql</groupId>
-    	<artifactId>mysql-connector-java</artifactId>
-    	<version>3.0.8</version>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>5.1.46</version>
 	</dependency>
   </dependencies>
 </project>

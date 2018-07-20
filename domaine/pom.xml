@@ -7,7 +7,6 @@
     <artifactId>fr.gtm.mondedestenebres</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>fr.gtm</groupId>
   <artifactId>domaine</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>domaine</name>

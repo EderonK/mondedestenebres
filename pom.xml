@@ -20,5 +20,6 @@
     <module>dao</module>
     <module>service</module>
     <module>presentation</module>
+    <module>presentationweb</module>
   </modules>
 </project>
