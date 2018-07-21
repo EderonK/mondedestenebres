@@ -39,34 +39,20 @@ public class Controleur extends HttpServlet {
 	
 	protected void traitement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-	//Soumettre les paramètres de la requête à la couche service et récupérer résultat
-	
-	System.out.println("0");
+	//Soumettre les parametres de la requete a la couche service et recuperer resultat
 	
 	VampireService service = new VampireService();
 	
-	System.out.println("1");
-	
-	/*ArrayList<Vampire> vampires = service.recenserPopulation();
-	
-	System.out.println("2");
+	ArrayList<Vampire> vampires = service.recenserPopulation();
 	
 	HttpSession maSession = request.getSession();
 	
-	System.out.println("3");
-	
 	maSession.setAttribute("population", vampires);
 	
-	System.out.println("4");
-	
-	//Réponse à l'utilisateur
+	//Reponse a l'utilisateur
 	RequestDispatcher   dispatcher = request.getRequestDispatcher("resultatLogin.jsp");
 	
-	System.out.println("5");
-	
 	dispatcher.forward(request, response);
-	
-	System.out.println("6");*/
 	
 	}
 
